@@ -10,6 +10,7 @@ custom_plugins:
   - acl
   - cors
   - oauth2
+  - loggly
   - tcp-log
   - udp-log
   - file-log
