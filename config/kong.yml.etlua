@@ -43,25 +43,16 @@ cluster:
   encrypt: "<%= cluster_secret %>"
 
 ## Specify the DAO to use
-database: cassandra
+database: postgres
 
 ## Databases configuration
-cassandra:
-  contact_points:
-<% for i, host in pairs(cassandra_hosts) do -%>
-    - "<%= host %>"
-<% end -%>
-  username: "<%= cassandra_user %>"
-  password: "<%= cassandra_password %>"
-  keyspace: "<%= cassandra_keyspace %>"
-  replication_strategy: "SimpleStrategy" 
-  replication_factor: <%= cassandra_replication_factor %>
-  ssl:
-    enabled: <%= cassandra_ssl %>
-<% if cassandra_ssl then -%>
-    verify: true
-    certificate_authority: "<%= cassandra_cert %>"
-<% end -%>
+postgres:
+  host: "<%= postgres_host %>"
+  port: <%= postgres_port %>
+  user: "<%= postgres_user %>"
+  password: "<%= postgres_password %>"
+  database: "<%= postgres_database %>"
+  ssl: true
 
 ## SSL Settings
 ## (Uncomment the two properties below to set your own certificate)
@@ -72,7 +63,7 @@ cassandra:
 send_anonymous_reports: true
 
 ## In-memory cache size (MB)
-memory_cache_size: 1024
+memory_cache_size: 256
 
 ## Nginx configuration
 nginx: |
@@ -80,7 +71,7 @@ nginx: |
   worker_processes auto;
   # On Heroku, stream into logplex
   # https://devcenter.heroku.com/articles/process-model#output-streams-as-logs
-  error_log stderr warn;
+  error_log stderr info;
   # On Heroku, do not daemonize
   # https://devcenter.heroku.com/articles/runtime-principles#foreground-execution
   # Do NOT set `daemon` here, so it can be overridden at runtime in `Procfile.web`
